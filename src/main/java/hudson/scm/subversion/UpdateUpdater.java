@@ -179,36 +179,36 @@ public class UpdateUpdater extends WorkspaceUpdater {
             } catch (final SVNException e) {
                 SVNException cause = e;
                 do {
-                    SVNErrorCode errorCode = cause.getErrorMessage().getErrorCode();
-                    if (errorCode == SVNErrorCode.WC_LOCKED) {
-                        // work space locked. try fresh check out
-                        listener.getLogger().println("Workspace appear to be locked, so getting a fresh workspace");
-                        return delegateTo(new CheckoutUpdater());
-                    }
-                    if (errorCode == SVNErrorCode.WC_OBSTRUCTED_UPDATE) {
-                        // HUDSON-1882. If existence of local files cause an update to fail,
-                        // revert to fresh check out
-                        listener.getLogger().println(e.getMessage()); // show why this happened. Sometimes this is caused by having a build artifact in the repository.
-                        listener.getLogger().println("Updated failed due to local files. Getting a fresh workspace");
-                        return delegateTo(new CheckoutUpdater());
-                    }
-                    if (errorCode == SVNErrorCode.WC_CORRUPT_TEXT_BASE || errorCode == SVNErrorCode.WC_CORRUPT || errorCode == SVNErrorCode.WC_UNWIND_EMPTY) {
-                        // JENKINS-14550. if working copy is corrupted, revert to fresh check out
-                        listener.getLogger().println(e.getMessage()); // show why this happened. Sometimes this is caused by having a build artifact in the repository.
-                        listener.getLogger().println("Updated failed due to working copy corruption. Getting a fresh workspace");
-                        return delegateTo(new CheckoutUpdater());
-                    }
-                    // trouble-shooting probe for #591
-                    if (errorCode == SVNErrorCode.WC_NOT_LOCKED) {
-                        Hudson instance = Hudson.getInstance();
-                        if (instance != null) {
-                            listener.getLogger().println("Polled jobs are " + instance.getDescriptorByType(SCMTrigger.DescriptorImpl.class).getItemsBeingPolled());
-                        }
-                        return delegateTo(new CheckoutUpdater());
-                    }
+                //     SVNErrorCode errorCode = cause.getErrorMessage().getErrorCode();
+                //     if (errorCode == SVNErrorCode.WC_LOCKED) {
+                //         // work space locked. try fresh check out
+                //         listener.getLogger().println("Workspace appear to be locked, so getting a fresh workspace");
+                //         return delegateTo(new CheckoutUpdater());
+                //     }
+                //     if (errorCode == SVNErrorCode.WC_OBSTRUCTED_UPDATE) {
+                //         // HUDSON-1882. If existence of local files cause an update to fail,
+                //         // revert to fresh check out
+                //         listener.getLogger().println(e.getMessage()); // show why this happened. Sometimes this is caused by having a build artifact in the repository.
+                //         listener.getLogger().println("Updated failed due to local files. Getting a fresh workspace");
+                //         return delegateTo(new CheckoutUpdater());
+                //     }
+                //     if (errorCode == SVNErrorCode.WC_CORRUPT_TEXT_BASE || errorCode == SVNErrorCode.WC_CORRUPT || errorCode == SVNErrorCode.WC_UNWIND_EMPTY) {
+                //         // JENKINS-14550. if working copy is corrupted, revert to fresh check out
+                //         listener.getLogger().println(e.getMessage()); // show why this happened. Sometimes this is caused by having a build artifact in the repository.
+                //         listener.getLogger().println("Updated failed due to working copy corruption. Getting a fresh workspace");
+                //         return delegateTo(new CheckoutUpdater());
+                //     }
+                //     // trouble-shooting probe for #591
+                //     if (errorCode == SVNErrorCode.WC_NOT_LOCKED) {
+                //         Hudson instance = Hudson.getInstance();
+                //         if (instance != null) {
+                //             listener.getLogger().println("Polled jobs are " + instance.getDescriptorByType(SCMTrigger.DescriptorImpl.class).getItemsBeingPolled());
+                //         }
+                //         return delegateTo(new CheckoutUpdater());
+                //     }
 
-                  // recurse as long as we encounter nested SVNException
-                } while (null != (cause = getNestedSVNException(cause)));
+                //   // recurse as long as we encounter nested SVNException
+                // } while (null != (cause = getNestedSVNException(cause)));
 
                 e.printStackTrace(listener.error("Failed to update " + location.remote));
                 listener.error("Subversion update failed");
