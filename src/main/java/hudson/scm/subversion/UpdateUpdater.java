@@ -177,8 +177,8 @@ public class UpdateUpdater extends WorkspaceUpdater {
                     throw (InterruptedException)new InterruptedException().initCause(e);
                 }
             } catch (final SVNException e) {
-                SVNException cause = e;
-                do {
+                // SVNException cause = e;
+                // do {
                 //     SVNErrorCode errorCode = cause.getErrorMessage().getErrorCode();
                 //     if (errorCode == SVNErrorCode.WC_LOCKED) {
                 //         // work space locked. try fresh check out
